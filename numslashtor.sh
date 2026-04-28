@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-HWDB_FILE="/etc/udev/hwdb.d/90-f5-to-r.hwdb"
+HWDB_FILE="/etc/udev/hwdb.d/90-b5-to-r.hwdb"
 
 
 if [[ $EUID -ne 0 ]]; then
@@ -16,7 +16,7 @@ echo "Writing configuration to $HWDB_FILE..."
 cat <<EOF > "$HWDB_FILE"
 # Matches all keyboards
 evdev:input:b*v*p*e*
- KEYBOARD_KEY_3f=r
+ KEYBOARD_KEY_bf5=r
 EOF
 
 
@@ -26,4 +26,4 @@ udevadm hwdb --update
 echo "Triggering udev reload for keyboard events..."
 udevadm trigger --sysname-match="event*"
 
-echo "--- Success! F5 should now map to 'R' ---"
+echo "--- Success! / should now map to 'R' ---"
