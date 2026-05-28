@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-HWDB_FILE="/etc/udev/hwdb.d/90-b5-to-r.hwdb"
+HWDB_FILE="/etc/udev/hwdb.d/90-keys.hwdb"
 
 
 if [[ $EUID -ne 0 ]]; then
@@ -14,9 +14,10 @@ echo "--- Initializing udev hardware database update ---"
 
 echo "Writing configuration to $HWDB_FILE..."
 cat <<EOF > "$HWDB_FILE"
-# Matches all keyboards
 evdev:input:b*v*p*e*
- KEYBOARD_KEY_bf5=r
+ KEYBOARD_KEY_35=r
+ KEYBOARD_KEY_b5=slash
+
 EOF
 
 
