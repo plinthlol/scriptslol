@@ -27,4 +27,4 @@ udevadm hwdb --update
 echo "Triggering udev reload for keyboard events..."
 udevadm trigger --sysname-match="event*"
 
-echo "--- Success! / should now map to 'R' ---"
+echo "--- Success!"
