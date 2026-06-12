@@ -1,30 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+HWDB_FILE=/etc/udev/hwdb.d/90-keys.hwdb
 
-HWDB_FILE="/etc/udev/hwdb.d/90-keys.hwdb"
+sudo rm -f /etc/udev/hwdb.d/90-block-broken-key.hwdb
+sudo rm -f "$HWDB_FILE"
 
+sudo tee "$HWDB_FILE" << 'HWDB'
+evdev:atkbd:dmi:*
+ KEYBOARD_KEY_2d=reserved
+ KEYBOARD_KEY_37=x
 
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root (sudo)." 
-   exit 1
-fi
-
-echo "--- Initializing udev hardware database update ---"
-
-
-echo "Writing configuration to $HWDB_FILE..."
-cat <<EOF > "$HWDB_FILE"
 evdev:input:b*v*p*e*
  KEYBOARD_KEY_35=r
  KEYBOARD_KEY_b5=slash
+HWDB
 
-EOF
+sudo udevadm hwdb --update && sudo udevadm trigger
 
-
-echo "Updating the binary hwdb..."
-udevadm hwdb --update
-
-echo "Triggering udev reload for keyboard events..."
-udevadm trigger --sysname-match="event*"
-
-echo "--- Success!"
+echo "Done! Rules applied from $HWDB_FILE"
